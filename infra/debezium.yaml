@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-connect
+  namespace: food-delivery
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-connect
+  template:
+    metadata:
+      labels:
+        app: kafka-connect
+    spec:
+      containers:
+        - name: kafka-connect
+          image: quay.io/debezium/connect:3.0
+          ports:
+            - containerPort: 8083
+          env:
+            - name: BOOTSTRAP_SERVERS
+              value: "kafka-kafka-bootstrap:9092"
+            - name: GROUP_ID
+              value: "debezium-connect"
+            - name: CONFIG_STORAGE_TOPIC
+              value: "connect-configs"
+            - name: OFFSET_STORAGE_TOPIC
+              value: "connect-offsets"
+            - name: STATUS_STORAGE_TOPIC
+              value: "connect-status"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-connect
+  namespace: food-delivery
+spec:
+  ports:
+    - port: 8083
+      targetPort: 8083
+  selector:
+    app: kafka-connect
