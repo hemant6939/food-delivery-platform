@@ -23,14 +23,20 @@ spec:
                 name: search-service
                 port:
                   number: 8081
-          - path: /kibana
+    - host: kibana.local
+      http:
+        paths:
+          - path: /
             pathType: Prefix
             backend:
               service:
                 name: kibana
                 port:
                   number: 5601
-          - path: /kowl
+    - host: kowl.local
+      http:
+        paths:
+          - path: /
             pathType: Prefix
             backend:
               service:
