@@ -1,0 +1,60 @@
+name: Build and Push Images
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-order-service:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push Order Service
+        run: |
+          docker build -t hemantchaudhary98/order-service:${{ github.sha }} ./order-service
+          docker build -t hemantchaudhary98/order-service:latest ./order-service
+          docker push hemantchaudhary98/order-service:${{ github.sha }}
+          docker push hemantchaudhary98/order-service:latest
+
+  build-order-consumer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push Order Consumer
+        run: |
+          docker build -t hemantchaudhary98/order-consumer:${{ github.sha }} ./order-consumer
+          docker build -t hemantchaudhary98/order-consumer:latest ./order-consumer
+          docker push hemantchaudhary98/order-consumer:${{ github.sha }}
+          docker push hemantchaudhary98/order-consumer:latest
+
+  build-search-service:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push Search Service
+        run: |
+          docker build -t hemantchaudhary98/search-service:${{ github.sha }} ./search-service
+          docker build -t hemantchaudhary98/search-service:latest ./search-service
+          docker push hemantchaudhary98/search-service:${{ github.sha }}
+          docker push hemantchaudhary98/search-service:latest
