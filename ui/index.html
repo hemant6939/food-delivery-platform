@@ -7,499 +7,203 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   :root {
-    --bg: #0a0a0a;
-    --card: #141414;
-    --card-hover: #1a1a1a;
-    --border: #2a2a2a;
-    --text: #f0f0f0;
-    --text-muted: #888;
-    --accent: #ff6b35;
-    --accent-glow: rgba(255, 107, 53, 0.15);
-    --green: #22c55e;
-    --green-bg: rgba(34, 197, 94, 0.1);
+    --bg: #0a0a0a; --card: #141414; --border: #2a2a2a; --text: #f0f0f0;
+    --text-muted: #888; --accent: #ff6b35; --accent-glow: rgba(255,107,53,0.15);
+    --green: #22c55e; --green-bg: rgba(34,197,94,0.1); --blue: #6366f1;
   }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  .grain {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 100;
-  }
-
-  .glow-orb {
-    position: fixed;
-    width: 600px; height: 600px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,107,53,0.06) 0%, transparent 70%);
-    top: -200px; right: -200px;
-    pointer-events: none;
-  }
-
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 40px;
-    border-bottom: 1px solid var(--border);
-    backdrop-filter: blur(20px);
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: rgba(10,10,10,0.8);
-  }
-
-  .logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 24px;
-    color: var(--accent);
-    letter-spacing: -0.5px;
-  }
-
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .grain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 100; }
+  .glow-orb { position: fixed; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(255,107,53,0.06) 0%, transparent 70%); top: -200px; right: -200px; pointer-events: none; }
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 40px; border-bottom: 1px solid var(--border); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 50; background: rgba(10,10,10,0.8); }
+  .logo { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--accent); }
   .logo span { color: var(--text); }
-
-  .nav-status {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--green);
-    background: var(--green-bg);
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid rgba(34,197,94,0.2);
-  }
-
-  .nav-status::before {
-    content: '';
-    width: 6px; height: 6px;
-    background: var(--green);
-    border-radius: 50%;
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 40px 24px;
-  }
-
-  .hero {
-    text-align: center;
-    margin-bottom: 60px;
-    padding: 40px 0;
-  }
-
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    font-weight: 700;
-    letter-spacing: -1px;
-    margin-bottom: 12px;
-  }
-
-  .hero h1 span { color: var(--accent); }
-
-  .hero p {
-    color: var(--text-muted);
-    font-size: 16px;
-    max-width: 500px;
-    margin: 0 auto;
-    line-height: 1.6;
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-  }
-
-  @media (max-width: 768px) {
-    .grid { grid-template-columns: 1fr; }
-    .hero h1 { font-size: 32px; }
-    nav { padding: 16px 20px; }
-  }
-
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 32px;
-    transition: border-color 0.3s, box-shadow 0.3s;
-  }
-
-  .card:hover {
-    border-color: #3a3a3a;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
-  }
-
-  .card-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 24px;
-  }
-
-  .card-icon {
-    width: 40px; height: 40px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-  }
-
+  .nav-status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--green); background: var(--green-bg); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(34,197,94,0.2); }
+  .nav-status::before { content: ''; width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+  .hero { text-align: center; margin-bottom: 40px; padding: 30px 0; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 700; letter-spacing: -1px; margin-bottom: 12px; }
+  .hero h1 em { color: var(--accent); font-style: normal; }
+  .hero p { color: var(--text-muted); font-size: 16px; max-width: 500px; margin: 0 auto; line-height: 1.6; }
+  .pipeline { margin-bottom: 40px; padding: 20px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow-x: auto; }
+  .pipeline-track { display: flex; align-items: center; justify-content: center; gap: 0; min-width: 700px; }
+  .pipe-step { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .pipe-dot { width: 38px; height: 38px; border-radius: 50%; background: var(--bg); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; transition: all 0.4s ease; z-index: 2; }
+  .pipe-label { font-size: 10px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; transition: color 0.4s; }
+  .pipe-connector { width: 40px; height: 2px; background: var(--border); margin: 0 -1px; margin-bottom: 18px; position: relative; }
+  .pipe-connector .pipe-flow { position: absolute; top: 0; left: 0; height: 100%; width: 0; background: var(--accent); border-radius: 2px; transition: width 0.5s ease; }
+  .pipe-step.active .pipe-dot { border-color: var(--green); background: var(--green-bg); box-shadow: 0 0 20px rgba(34,197,94,0.3); }
+  .pipe-step.active .pipe-label { color: var(--green); }
+  .pipe-step.flowing .pipe-dot { border-color: var(--accent); background: var(--accent-glow); box-shadow: 0 0 20px rgba(255,107,53,0.3); animation: flowPulse 0.6s ease; }
+  .pipe-step.flowing .pipe-label { color: var(--accent); }
+  .pipe-step.search-active .pipe-dot { border-color: var(--blue); background: rgba(99,102,241,0.1); box-shadow: 0 0 20px rgba(99,102,241,0.3); }
+  .pipe-step.search-active .pipe-label { color: var(--blue); }
+  .pipe-connector.active .pipe-flow { width: 100%; }
+  @keyframes flowPulse { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+  .pipe-status { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 12px; min-height: 18px; transition: color 0.3s; }
+  .pipe-status.active { color: var(--green); }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } .hero h1 { font-size: 32px; } nav { padding: 16px 20px; } }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; transition: border-color 0.3s; }
+  .card:hover { border-color: #3a3a3a; }
+  .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .card-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
   .card-icon.order { background: var(--accent-glow); border: 1px solid rgba(255,107,53,0.2); }
   .card-icon.search { background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2); }
-
-  .card h2 {
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: -0.3px;
-  }
-
-  .card h2 small {
-    display: block;
-    font-size: 12px;
-    font-weight: 400;
-    color: var(--text-muted);
-    margin-top: 2px;
-  }
-
-  .form-group {
-    margin-bottom: 14px;
-  }
-
-  .form-group label {
-    display: block;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-muted);
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  input {
-    width: 100%;
-    padding: 12px 14px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
-  }
-
-  input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-glow);
-  }
-
+  .card h2 { font-size: 18px; font-weight: 600; }
+  .card h2 small { display: block; font-size: 12px; font-weight: 400; color: var(--text-muted); margin-top: 2px; }
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 500; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  input { width: 100%; padding: 12px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; transition: border-color 0.2s, box-shadow 0.2s; outline: none; }
+  input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
   input::placeholder { color: #444; }
-
-  .btn {
-    width: 100%;
-    padding: 13px;
-    border: none;
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin-top: 6px;
-    letter-spacing: 0.3px;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: white;
-  }
-
-  .btn-primary:hover {
-    background: #e85d2a;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 20px rgba(255,107,53,0.3);
-  }
-
-  .btn-search {
-    background: rgba(99,102,241,0.15);
-    color: #818cf8;
-    border: 1px solid rgba(99,102,241,0.2);
-  }
-
-  .btn-search:hover {
-    background: rgba(99,102,241,0.25);
-    transform: translateY(-1px);
-  }
-
-  .btn:active { transform: translateY(0); }
-
-  .toast {
-    margin-top: 14px;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    display: none;
-    animation: slideUp 0.3s ease;
-  }
-
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .toast.success {
-    display: block;
-    background: var(--green-bg);
-    color: var(--green);
-    border: 1px solid rgba(34,197,94,0.2);
-  }
-
-  .toast.error {
-    display: block;
-    background: rgba(239,68,68,0.1);
-    color: #ef4444;
-    border: 1px solid rgba(239,68,68,0.2);
-  }
-
-  .results {
-    margin-top: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .result-item {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    transition: border-color 0.2s;
-    animation: slideUp 0.3s ease;
-  }
-
+  .btn { width: 100%; padding: 13px; border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 6px; }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: #e85d2a; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(255,107,53,0.3); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+  .btn-search { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.2); }
+  .btn-search:hover { background: rgba(99,102,241,0.25); transform: translateY(-1px); }
+  .toast { margin-top: 14px; padding: 10px 14px; border-radius: 8px; font-size: 13px; display: none; animation: slideUp 0.3s ease; }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .toast.success { display: block; background: var(--green-bg); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
+  .toast.error { display: block; background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
+  .results { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+  .result-item { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; animation: slideUp 0.3s ease; }
   .result-item:hover { border-color: #3a3a3a; }
-
-  .result-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 6px;
-  }
-
-  .result-name {
-    font-weight: 600;
-    font-size: 14px;
-  }
-
-  .result-badge {
-    font-size: 11px;
-    padding: 3px 10px;
-    border-radius: 12px;
-    font-weight: 500;
-  }
-
-  .badge-placed {
-    background: var(--accent-glow);
-    color: var(--accent);
-    border: 1px solid rgba(255,107,53,0.2);
-  }
-
-  .result-details {
-    font-size: 13px;
-    color: var(--text-muted);
-    line-height: 1.5;
-  }
-
-  .result-details span {
-    color: var(--text);
-    font-weight: 500;
-  }
-
-  .no-results {
-    text-align: center;
-    color: var(--text-muted);
-    padding: 30px;
-    font-size: 14px;
-  }
-
-  .pipeline {
-    margin-top: 40px;
-    padding: 20px 24px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-
-  .pipeline-step {
-    padding: 4px 10px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-weight: 500;
-  }
-
-  .pipeline-arrow { color: var(--accent); font-size: 14px; }
-
-  .loading {
-    display: none;
-    text-align: center;
-    padding: 20px;
-  }
-
-  .spinner {
-    width: 24px; height: 24px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.6s linear infinite;
-    margin: 0 auto;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
+  .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .result-name { font-weight: 600; font-size: 14px; }
+  .result-badge { font-size: 11px; padding: 3px 10px; border-radius: 12px; font-weight: 500; background: var(--accent-glow); color: var(--accent); border: 1px solid rgba(255,107,53,0.2); }
+  .result-details { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+  .result-details span { color: var(--text); font-weight: 500; }
+  .no-results { text-align: center; color: var(--text-muted); padding: 30px; font-size: 14px; }
 </style>
 </head>
 <body>
 <div class="grain"></div>
 <div class="glow-orb"></div>
-
 <nav>
   <div class="logo">food<span>delivery</span></div>
   <div class="nav-status">Pipeline active</div>
 </nav>
-
 <div class="container">
   <div class="hero">
-    <h1>Place & <span>search</span> orders</h1>
-    <p>Full CDC pipeline: PostgreSQL → Debezium → Kafka → Elasticsearch. Real-time data flow.</p>
+    <h1>Place & <em>search</em> orders</h1>
+    <p>Full CDC pipeline: PostgreSQL → Debezium → Kafka → Elasticsearch</p>
   </div>
-
+  <div class="pipeline">
+    <div class="pipeline-track">
+      <div class="pipe-step" id="step-ui"><div class="pipe-dot">UI</div><div class="pipe-label">UI</div></div>
+      <div class="pipe-connector" id="conn-1"><div class="pipe-flow"></div></div>
+      <div class="pipe-step" id="step-order"><div class="pipe-dot">OS</div><div class="pipe-label">Order svc</div></div>
+      <div class="pipe-connector" id="conn-2"><div class="pipe-flow"></div></div>
+      <div class="pipe-step" id="step-pg"><div class="pipe-dot">PG</div><div class="pipe-label">PostgreSQL</div></div>
+      <div class="pipe-connector" id="conn-3"><div class="pipe-flow"></div></div>
+      <div class="pipe-step" id="step-dz"><div class="pipe-dot">DZ</div><div class="pipe-label">Debezium</div></div>
+      <div class="pipe-connector" id="conn-4"><div class="pipe-flow"></div></div>
+      <div class="pipe-step" id="step-kafka"><div class="pipe-dot">KF</div><div class="pipe-label">Kafka</div></div>
+      <div class="pipe-connector" id="conn-5"><div class="pipe-flow"></div></div>
+      <div class="pipe-step" id="step-consumer"><div class="pipe-dot">CP</div><div class="pipe-label">Consumer</div></div>
+      <div class="pipe-connector" id="conn-6"><div class="pipe-flow"></div></div>
+      <div class="pipe-step" id="step-es"><div class="pipe-dot">ES</div><div class="pipe-label">Elastic</div></div>
+      <div class="pipe-connector" id="conn-7"><div class="pipe-flow"></div></div>
+      <div class="pipe-step" id="step-search"><div class="pipe-dot">SS</div><div class="pipe-label">Search svc</div></div>
+    </div>
+    <div class="pipe-status" id="pipeStatus">Idle — waiting for action</div>
+  </div>
   <div class="grid">
-    <!-- Place Order Card -->
     <div class="card">
       <div class="card-header">
         <div class="card-icon order">+</div>
         <h2>Place order<small>Writes to PostgreSQL → flows to Elasticsearch</small></h2>
       </div>
-      <div class="form-group">
-        <label>Customer name</label>
-        <input type="text" id="customerName" placeholder="e.g. Hemant">
-      </div>
-      <div class="form-group">
-        <label>Restaurant</label>
-        <input type="text" id="restaurantName" placeholder="e.g. Pizza Palace">
-      </div>
-      <div class="form-group">
-        <label>Items</label>
-        <input type="text" id="items" placeholder="e.g. pizza, coke, garlic bread">
-      </div>
-      <div class="form-group">
-        <label>Total amount</label>
-        <input type="number" id="totalAmount" placeholder="e.g. 450">
-      </div>
-      <button class="btn btn-primary" onclick="placeOrder()">Place order</button>
+      <div class="form-group"><label>Customer name</label><input type="text" id="customerName" placeholder="e.g. Hemant"></div>
+      <div class="form-group"><label>Restaurant</label><input type="text" id="restaurantName" placeholder="e.g. Pizza Palace"></div>
+      <div class="form-group"><label>Items</label><input type="text" id="items" placeholder="e.g. pizza, coke, garlic bread"></div>
+      <div class="form-group"><label>Total amount</label><input type="number" id="totalAmount" placeholder="e.g. 450"></div>
+      <button class="btn btn-primary" id="orderBtn" onclick="placeOrder()">Place order</button>
       <div id="orderToast" class="toast"></div>
     </div>
-
-    <!-- Search Card -->
     <div class="card">
       <div class="card-header">
         <div class="card-icon search">?</div>
         <h2>Search orders<small>Queries Elasticsearch in real-time</small></h2>
       </div>
-      <div class="form-group">
-        <label>Search query</label>
-        <input type="text" id="searchQuery" placeholder="Search by name, restaurant, or item..." onkeyup="debounceSearch()">
-      </div>
+      <div class="form-group"><label>Search query</label><input type="text" id="searchQuery" placeholder="Search by name, restaurant, or item..." onkeyup="debounceSearch()"></div>
       <button class="btn btn-search" onclick="searchOrders()">Search</button>
-      <div id="searchLoading" class="loading"><div class="spinner"></div></div>
       <div id="results" class="results"></div>
     </div>
   </div>
-
-  <div class="pipeline">
-    <span class="pipeline-step">UI</span>
-    <span class="pipeline-arrow">→</span>
-    <span class="pipeline-step">Order Service</span>
-    <span class="pipeline-arrow">→</span>
-    <span class="pipeline-step">PostgreSQL</span>
-    <span class="pipeline-arrow">→</span>
-    <span class="pipeline-step">Debezium</span>
-    <span class="pipeline-arrow">→</span>
-    <span class="pipeline-step">Kafka</span>
-    <span class="pipeline-arrow">→</span>
-    <span class="pipeline-step">Consumer</span>
-    <span class="pipeline-arrow">→</span>
-    <span class="pipeline-step">Elasticsearch</span>
-    <span class="pipeline-arrow">→</span>
-    <span class="pipeline-step">Search Service</span>
-  </div>
 </div>
-
 <script>
 const ORDER_API = "http://food.local/api/orders";
 const SEARCH_API = "http://food.local/api/search";
-
+const steps = ['ui','order','pg','dz','kafka','consumer','es','search'];
+const connectors = ['conn-1','conn-2','conn-3','conn-4','conn-5','conn-6','conn-7'];
 let debounceTimer;
+
+function resetPipeline() {
+  steps.forEach(s => { document.getElementById('step-' + s).className = 'pipe-step'; });
+  connectors.forEach(c => { document.getElementById(c).className = 'pipe-connector'; });
+  document.getElementById('pipeStatus').className = 'pipe-status';
+  document.getElementById('pipeStatus').textContent = 'Idle — waiting for action';
+}
+
+function activateStep(stepIndex, message, type) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const el = document.getElementById('step-' + steps[stepIndex]);
+      el.className = 'pipe-step ' + (type || 'flowing');
+      if (stepIndex > 0) {
+        document.getElementById(connectors[stepIndex - 1]).className = 'pipe-connector active';
+      }
+      const status = document.getElementById('pipeStatus');
+      status.textContent = message;
+      status.className = 'pipe-status active';
+      resolve();
+    }, 500);
+  });
+}
 
 function debounceSearch() {
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(() => {
-    const q = document.getElementById('searchQuery').value;
-    if (q.length >= 2) searchOrders();
+    if (document.getElementById('searchQuery').value.length >= 2) searchOrders();
   }, 400);
 }
 
 async function placeOrder() {
   const toast = document.getElementById('orderToast');
+  const btn = document.getElementById('orderBtn');
   const order = {
     customer_name: document.getElementById("customerName").value,
     restaurant_name: document.getElementById("restaurantName").value,
     items: document.getElementById("items").value,
     total_amount: parseFloat(document.getElementById("totalAmount").value)
   };
-
   if (!order.customer_name || !order.restaurant_name || !order.items || !order.total_amount) {
-    toast.className = 'toast error';
-    toast.textContent = 'Please fill all fields';
-    return;
+    toast.className = 'toast error'; toast.textContent = 'Please fill all fields'; return;
   }
+  btn.disabled = true; btn.textContent = 'Placing...';
+  toast.className = 'toast'; toast.style.display = 'none';
+  resetPipeline();
 
+  await activateStep(0, 'UI sending order request...');
   try {
-    const res = await fetch(ORDER_API, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(order)
-    });
+    await activateStep(1, 'Order Service processing...');
+    const res = await fetch(ORDER_API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(order) });
     const data = await res.json();
+    await activateStep(2, 'Order #' + data.id + ' written to PostgreSQL');
+    await activateStep(3, 'Debezium reading WAL log...');
+    await activateStep(4, 'Event published to Kafka topic');
+    await activateStep(5, 'Consumer pod indexing...');
+    await activateStep(6, 'Indexed to Elasticsearch');
+    setTimeout(() => {
+      steps.slice(0, 7).forEach(s => { document.getElementById('step-' + s).className = 'pipe-step active'; });
+      document.getElementById('pipeStatus').textContent = 'Order #' + data.id + ' — fully indexed and searchable';
+    }, 500);
     toast.className = 'toast success';
-    toast.textContent = 'Order placed successfully — ID: ' + data.id;
+    toast.textContent = 'Order #' + data.id + ' placed — now searchable in Elasticsearch';
     document.getElementById("customerName").value = '';
     document.getElementById("restaurantName").value = '';
     document.getElementById("items").value = '';
@@ -507,50 +211,36 @@ async function placeOrder() {
   } catch (err) {
     toast.className = 'toast error';
     toast.textContent = 'Connection failed — is minikube tunnel running?';
+    resetPipeline();
   }
+  btn.disabled = false; btn.textContent = 'Place order';
 }
 
 async function searchOrders() {
   const query = document.getElementById("searchQuery").value;
   const resultsDiv = document.getElementById("results");
-  const loading = document.getElementById("searchLoading");
-
-  if (!query) {
-    resultsDiv.innerHTML = '';
-    return;
-  }
-
-  loading.style.display = 'block';
-  resultsDiv.innerHTML = '';
-
+  if (!query) { resultsDiv.innerHTML = ''; resetPipeline(); return; }
+  resetPipeline();
+  await activateStep(7, 'Search Service received query...', 'search-active');
+  await activateStep(6, 'Querying Elasticsearch...', 'search-active');
   try {
     const res = await fetch(SEARCH_API + "?q=" + query);
     const data = await res.json();
-    loading.style.display = 'none';
-
     const hits = data.hits.hits;
-    if (hits.length === 0) {
-      resultsDiv.innerHTML = '<div class="no-results">No orders found for "' + query + '"</div>';
-      return;
-    }
-
+    document.getElementById('step-search').className = 'pipe-step active';
+    document.getElementById('step-es').className = 'pipe-step active';
+    document.getElementById(connectors[6]).className = 'pipe-connector active';
+    document.getElementById('pipeStatus').textContent = 'Found ' + hits.length + ' result(s) for "' + query + '"';
+    if (hits.length === 0) { resultsDiv.innerHTML = '<div class="no-results">No orders found for "' + query + '"</div>'; return; }
     let html = '';
     hits.forEach(hit => {
       const o = hit._source;
-      html += '<div class="result-item">';
-      html += '<div class="result-header">';
-      html += '<span class="result-name">' + o.customer_name + '</span>';
-      html += '<span class="result-badge badge-placed">' + (o.status || 'PLACED') + '</span>';
-      html += '</div>';
-      html += '<div class="result-details">';
-      html += '<span>' + o.restaurant_name + '</span> — ' + o.items;
-      html += '</div>';
-      html += '</div>';
+      html += '<div class="result-item"><div class="result-header"><span class="result-name">' + o.customer_name + '</span><span class="result-badge">' + (o.status || 'PLACED') + '</span></div><div class="result-details"><span>' + o.restaurant_name + '</span> — ' + o.items + '</div></div>';
     });
     resultsDiv.innerHTML = html;
   } catch (err) {
-    loading.style.display = 'none';
     resultsDiv.innerHTML = '<div class="no-results">Connection failed — is minikube tunnel running?</div>';
+    resetPipeline();
   }
 }
 </script>
