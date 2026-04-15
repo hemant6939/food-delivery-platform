@@ -23,14 +23,3 @@ spec:
             - name: {{ $key }}
               value: "{{ $val }}"
             {{- end }}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Chart.Name }}
-spec:
-  ports:
-    - port: {{ .Values.port }}
-      targetPort: {{ .Values.port }}
-  selector:
-    app: {{ .Chart.Name }}
