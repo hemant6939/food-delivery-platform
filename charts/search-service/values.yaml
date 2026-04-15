@@ -1,0 +1,8 @@
+replicaCount: 1
+image:
+  repository: hemantchaudhary98/search-service
+  tag: latest
+  pullPolicy: Always
+env:
+  ES_URL: http://elasticsearch:9200
+port: 8081

@@ -1,0 +1,10 @@
+replicaCount: 2
+image:
+  repository: hemantchaudhary98/order-consumer
+  tag: latest
+  pullPolicy: Always
+env:
+  KAFKA_BROKER: kafka-kafka-bootstrap:9092
+  KAFKA_TOPIC: fooddelivery.public.orders
+  ES_URL: http://elasticsearch:9200
+  GROUP_ID: order-es-indexer

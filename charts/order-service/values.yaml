@@ -1,0 +1,11 @@
+replicaCount: 1
+image:
+  repository: hemantchaudhary98/order-service
+  tag: latest
+  pullPolicy: Always
+env:
+  DB_HOST: postgresql
+  DB_USER: postgres
+  DB_PASSWORD: postgres123
+  DB_NAME: fooddelivery
+port: 8080
